@@ -34,5 +34,6 @@ module.exports = {
       },
     ],
     'no-undef': 'off',
+    'no-template-curly-in-string': 'off',
   },
 };
