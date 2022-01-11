@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RenderPage from './RenderPage';
 import { RootSchemaNode } from './RenderPage/data';
+import CodeEditor from './Editor';
+
+import styles from './App.module.less';
+import './App.css';
 
 const testSchema: RootSchemaNode = {
   key: 'root',
@@ -9,7 +13,7 @@ const testSchema: RootSchemaNode = {
     name: 'Jack',
     age: 16,
   },
-  children: [
+  body: [
     'I am ${name}, ${age} years old!',
     '666',
     {
@@ -21,13 +25,19 @@ const testSchema: RootSchemaNode = {
         country: 'China',
       },
     },
+    '<span style="color:blue">blue color</span>',
   ],
 };
 
 const App: React.FC = () => {
+  const [schema, setSchema] = useState(JSON.stringify(testSchema, null, 2));
+
   return (
-    <div>
-      <RenderPage node={testSchema} />
+    <div className={styles.container}>
+      <CodeEditor value={schema} onChange={setSchema} />
+      <div className={styles.right}>
+        <RenderPage node={JSON.parse(schema)} />
+      </div>
     </div>
   );
 };

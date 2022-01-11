@@ -2,26 +2,13 @@ import { isString } from 'lodash';
 import React, { useMemo } from 'react';
 import components from '../../components';
 import { tplCompile } from '../../utils';
-import { SchemaDataType, SchemaNode, TplNode, SchemaNodeJSon } from '../data';
+import { SchemaDataType, SchemaNode, TplNode } from '../data';
+import RenderNode from '../RenderNode/RenderNode';
 
 interface RenderProps {
   node: SchemaNode;
   pData?: SchemaDataType;
 }
-
-interface NodeProps {
-  node: SchemaNodeJSon;
-}
-const Node: React.FC<NodeProps> = ({ node }) => {
-  const Component = useMemo(() => {
-    return components[node.type] as React.LazyExoticComponent<
-      React.FC<{
-        node: SchemaNode;
-      }>
-    >;
-  }, [node.type]);
-  return <Component node={node} />;
-};
 
 const Render: React.FC<RenderProps> = (props) => {
   const { node, pData } = props;
@@ -41,15 +28,27 @@ const Render: React.FC<RenderProps> = (props) => {
   }, [node, pData]);
 
   if (typeof node === 'string') {
-    return tplCompile(node, data);
+    return (
+      <span
+        dangerouslySetInnerHTML={{
+          __html: tplCompile(node, data),
+        }}
+      ></span>
+    );
   }
 
   if (node.type === 'Tpl') {
-    return tplCompile((node as TplNode)?.tpl || '', data);
+    return (
+      <span
+        dangerouslySetInnerHTML={{
+          __html: tplCompile((node as TplNode)?.tpl || '', data),
+        }}
+      ></span>
+    );
   }
 
   if (registerKeys.includes(node.type)) {
-    return <Node node={{ ...node, data }} />;
+    return <RenderNode node={{ ...node, data }} />;
   }
 
   return <>the component is not register</>;

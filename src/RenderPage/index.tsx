@@ -1,17 +1,15 @@
-import React, { Suspense, useMemo } from 'react';
-import components from '../components';
+import React, { Suspense } from 'react';
 import { RootSchemaNode } from './data';
+import RenderNode from './RenderNode/RenderNode';
 
 interface RenderPageProps {
   node: RootSchemaNode;
 }
 
 const RenderPage: React.FC<RenderPageProps> = ({ node }) => {
-  const Component = useMemo(() => components[node.type], [node.type]);
-
   return (
     <Suspense fallback={'loading'}>
-      <Component node={node} />
+      <RenderNode node={node} />
     </Suspense>
   );
 };

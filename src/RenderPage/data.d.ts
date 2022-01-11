@@ -9,7 +9,7 @@ interface BasicSchemaNode {
 
 interface SchemaNodeJSon extends BasicSchemaNode {
   type: keyof typeof components;
-  children?: SchemaNode | SchemaNode[];
+  body?: SchemaNode | SchemaNode[];
 }
 
 interface TplNode extends BasicSchemaNode {
@@ -21,4 +21,9 @@ type SchemaNode = SchemaNodeJSon | TplNode | string;
 
 interface RootSchemaNode extends SchemaNodeJSon {
   type: 'Page';
+}
+
+interface CustomNodeType {
+  body?: SchemaNode | SchemaNode[];
+  data?: SchemaDataType;
 }

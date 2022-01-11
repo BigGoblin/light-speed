@@ -8,25 +8,21 @@ const EVAL_CACHE: { [key: string]: Function } = {};
 
 export function tplCompile(str: string, data: SchemaDataType) {
   try {
-    const fn = EVAL_CACHE[str] || (EVAL_CACHE[str] = template(str));
+    const fn = EVAL_CACHE[str] || (EVAL_CACHE[str] = template(str, {}));
     return fn.call(data, data);
   } catch (e) {
     return `<span class="text-danger">${e.message}</span>`;
   }
 }
 
-export function renderChildren(children: SchemaNodeJSon['children'], pData?: SchemaDataType) {
-  return isArray(children) ? (
+export function renderChildren(content: SchemaNodeJSon['body'], pData?: SchemaDataType) {
+  return isArray(content) ? (
     <>
-      {children.map((child, index) => (
-        <Render
-          key={isString(child) ? `${child}${index}` : child.key}
-          node={child}
-          pData={pData}
-        ></Render>
+      {content.map((child, index) => (
+        <Render key={isString(child) ? `${child}${index}` : child.key} node={child} pData={pData} />
       ))}
     </>
   ) : (
-    children && <Render node={children} pData={pData}></Render>
+    content && <Render node={content} pData={pData} />
   );
 }
