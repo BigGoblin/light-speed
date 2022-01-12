@@ -1,4 +1,4 @@
-import { isString } from 'lodash';
+import { isEqual, isString } from 'lodash';
 import React, { useMemo } from 'react';
 import components from '../../components';
 import { tplCompile } from '../../utils';
@@ -13,6 +13,7 @@ interface RenderProps {
 const Render: React.FC<RenderProps> = (props) => {
   const { node, pData } = props;
 
+  console.log(`node`, node);
   const registerKeys = useMemo(() => Object.keys(components), [components]);
 
   const data = useMemo(() => {
@@ -54,4 +55,4 @@ const Render: React.FC<RenderProps> = (props) => {
   return <>the component is not register</>;
 };
 
-export default Render;
+export default React.memo(Render, isEqual);

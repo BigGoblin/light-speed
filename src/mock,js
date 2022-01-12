@@ -1,0 +1,110 @@
+const jsonCode = ['{', '    "query": [{}]', '}'].join('\n');
+const modelUri = monaco.Uri.parse('a://b/foo.json'); // a made up unique URI for our model
+const model = monaco.editor.createModel(jsonCode, 'json', modelUri);
+
+// configure the JSON language support with schemas and schema associations
+monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+  validate: true,
+  schemas: [
+    {
+      uri: 'http://myserver/root-schema.json', // id of the first schema
+      fileMatch: ['*'], // associate with our model
+      schema: {
+        type: 'object',
+        properties: {
+          query: {
+            type: 'array',
+            uniqueItems: true,
+            items: {
+              $ref: 'http://myserver/query-schema.json',
+            },
+            title: 'Query Properties',
+            markdownDescription:
+              'ReactiveSearch API request body can be divided into two parts, query and settings. The query key is an Array of objects where each object represents a ReactiveSearch query to retrieve the results. \n[Docs Reference](https://docs.appbase.io/docs/search/reactivesearch-api/reference/#query-properties)',
+            default: [{}],
+          },
+        },
+      },
+    },
+    {
+      uri: 'http://myserver/query-schema.json',
+      schema: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: {
+            type: 'string',
+            markdownDescription:
+              'The unique identifier for the query can be referenced in the `react` property of other queries. The response of the `ReactiveSearch API` is a map of query ids to `Elasticsearch` response which means that `id` is also useful to retrieve the response for a particular query. \n - [Docs Reference](https://docs.appbase.io/docs/search/reactivesearch-api/reference#id)',
+            minLength: 1,
+            default: '',
+          },
+          type: {
+            type: 'string',
+            enum: ['search', 'term', 'range', 'geo'],
+            markdownDescription:
+              'This property represents the type of the query which is defaults to `search`, valid values are `search`, `term`, `range` & `geo`. You can read more [here](/docs/search/reactivesearch-api/implement/#type-of-queries). \n - [Docs Reference](https://docs.appbase.io/docs/search/reactivesearch-api/reference/#type)',
+          },
+        },
+
+        allOf: [
+          {
+            if: {
+              properties: {
+                type: {
+                  const: 'search',
+                },
+              },
+            },
+            then: {
+              properties: {
+                searchOperators: {
+                  type: 'boolean',
+                  markdownDescription:
+                    'Defaults to `false`. If set to `true` then you can use special characters in the search query to enable an advanced search behavior. Read more about it [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-simple-query-string-query.html). \n - Note: \n >  If both properties `searchOperators` and `queryString` are set to true then `queryString` will have the priority over `searchOperators`. \n - [Docs Reference](https://docs.appbase.io/docs/search/reactivesearch-api/reference/#searchoperators)',
+                  default: false,
+                },
+                enableSynonyms: {
+                  type: 'boolean',
+                  default: true,
+                  markdownDescription:
+                    'This property can be used to control (enable/disable) the synonyms behavior for a particular query. Defaults to true, if set to false then fields having .synonyms suffix will not affect the query. \n - [Docs Reference](https://docs.appbase.io/docs/search/reactivesearch-api/reference/#enablesynonyms)',
+                },
+              },
+            },
+          },
+          {
+            if: {
+              properties: {
+                type: {
+                  const: 'term',
+                },
+              },
+              required: ['type'],
+            },
+            then: {
+              properties: {
+                pagination: {
+                  type: 'boolean',
+                  default: false,
+                  markdownDescription:
+                    "This property allows you to implement the `pagination` for `term` type of queries. If `pagination` is set to `true` then appbase will use the [composite aggregations](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-composite-aggregation.html) of Elasticsearch instead of [terms aggregations](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-terms-aggregation.html). \n - [Docs Reference](https://docs.appbase.io/docs/search/reactivesearch-api/reference/#pagination) \n - Note: \n > 1. Sort by as `count` doesn't work with composite aggregations i.e when `pagination` is set to `true`. \n > 2. The [missingLabel](https://docs.appbase.io/docs/search/reactivesearch-api/reference/#missinglabel) property also won't work when composite aggregations have been used.",
+                },
+                showMissing: {
+                  type: 'boolean',
+                  markdownDescription:
+                    "Defaults to `false`. When set to `true` then it also retrieves the aggregations for missing fields. \n - [Docs Reference]('https://docs.appbase.io/docs/search/reactivesearch-api/reference/#showmissing')",
+                  default: false,
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+  ],
+});
+
+monaco.editor.create(document.getElementById('container'), {
+  model: model,
+});

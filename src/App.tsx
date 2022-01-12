@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import RenderPage from './RenderPage';
-import { RootSchemaNode } from './RenderPage/data';
+import { PageSchemaNode } from './RenderPage/data';
 import CodeEditor from './Editor';
 
 import styles from './App.module.less';
 import './App.css';
+import { isJsonString } from './utils';
 
-const testSchema: RootSchemaNode = {
+const testSchema: PageSchemaNode = {
   key: 'root',
   type: 'Page',
   data: {
@@ -26,15 +27,28 @@ const testSchema: RootSchemaNode = {
       },
     },
     '<span style="color:blue">blue color</span>',
+    {
+      key: 'test-form',
+      type: 'Form',
+      // body:[{
+
+      // }]
+    },
   ],
 };
 
 const App: React.FC = () => {
   const [schema, setSchema] = useState(JSON.stringify(testSchema, null, 2));
 
+  const handleChange = (s: string) => {
+    if (isJsonString(s)) {
+      setSchema(s);
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <CodeEditor value={schema} onChange={setSchema} />
+      <CodeEditor value={schema} onChange={handleChange} />
       <div className={styles.right}>
         <RenderPage node={JSON.parse(schema)} />
       </div>

@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
-import { RootSchemaNode } from './data';
+import { PageSchemaNode } from './data';
 import RenderNode from './RenderNode/RenderNode';
 
 interface RenderPageProps {
-  node: RootSchemaNode;
+  node: PageSchemaNode;
 }
 
 const RenderPage: React.FC<RenderPageProps> = ({ node }) => {

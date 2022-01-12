@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react';
 import components from '../../components';
-import { CustomNodeType, SchemaNodeJSon } from '../data';
+import { CustomComponentType, NodeItemSchemaNode } from '../data';
 
 interface NodeProps {
-  node: SchemaNodeJSon;
+  node: NodeItemSchemaNode;
 }
 const RenderNode: React.FC<NodeProps> = ({ node }) => {
   const Component = useMemo(() => {
-    return components[node.type] as React.LazyExoticComponent<React.FC<CustomNodeType>>;
+    return components[node.type] as React.LazyExoticComponent<React.FC<CustomComponentType>>;
   }, [node.type]);
 
-  return <Component body={node.body} data={node.data} />;
+  return <Component {...node} />;
 };
 
 export default RenderNode;

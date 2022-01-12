@@ -34,12 +34,40 @@ const CodeEditor: React.FC<CodeEditorProps> = (props) => {
   const editorRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (editorRef.current) {
+      const modelUri = monaco.Uri.parse('a://b/foo.json'); // a made up unique URI for our model
+      const model = monaco.editor.createModel(restProps.value || '', 'json', modelUri);
+
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        validate: true,
+        schemas: [
+          {
+            uri: 'page',
+            fileMatch: [modelUri.toString()],
+            schema: {
+              type: 'object',
+              properties: {
+                key: {
+                  type: 'string',
+                },
+                type: {
+                  value: 'Page',
+                },
+                data: {
+                  type: 'object',
+                },
+              },
+            },
+          },
+        ],
+      });
+
       const editorIns = monaco.editor.create(editorRef.current, {
         language: 'json',
         folding: true,
         theme: 'vs',
 
         ...restProps,
+        model,
       });
       editorIns.getModel()?.onDidChangeContent((e) => {
         const value = editorIns.getValue();
