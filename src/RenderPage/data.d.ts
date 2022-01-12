@@ -32,13 +32,18 @@ interface PageSchemaNode extends ContainerSchemaJSon {
 type FormSchemaNode = CustomComponentType<{
   type: 'Form';
   body?: FormItemSchemaNode[];
+  /** 表单名称 */
+  name?: string;
 }>;
 
-interface AsFormItemSchema extends OmitData<BasicSchemaNode> {
+/** formItem 基础属性 */
+interface AsFormItemSchema extends BasicSchemaNode {
+  type: keyof typeof components;
   name: string;
+  label: string;
 }
 
 // form外
 type NodeItemSchemaNode = FormSchemaNode | PageSchemaNode;
 // form内
-type FormItemSchemaNode = AsFormItemSchema | OmitData<TplNode> | string;
+type FormItemSchemaNode = AsFormItemSchema | TplNode | string;

@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import components from '../../components';
-import { CustomComponentType, NodeItemSchemaNode } from '../data';
+import { AsFormItemSchema, CustomComponentType, NodeItemSchemaNode } from '../data';
 
 interface NodeProps {
-  node: NodeItemSchemaNode;
+  node: NodeItemSchemaNode | AsFormItemSchema;
 }
 const RenderNode: React.FC<NodeProps> = ({ node }) => {
   const Component = useMemo(() => {

@@ -2,22 +2,21 @@ import { isEqual, isString } from 'lodash';
 import React, { useMemo } from 'react';
 import components from '../../components';
 import { tplCompile } from '../../utils';
-import { SchemaDataType, SchemaNode, TplNode } from '../data';
+import { FormItemSchemaNode, NodeItemSchemaNode, SchemaDataType, TplNode } from '../data';
 import RenderNode from '../RenderNode/RenderNode';
 
 interface RenderProps {
-  node: SchemaNode;
+  node: NodeItemSchemaNode | FormItemSchemaNode;
   pData?: SchemaDataType;
 }
 
 const Render: React.FC<RenderProps> = (props) => {
   const { node, pData } = props;
 
-  console.log(`node`, node);
   const registerKeys = useMemo(() => Object.keys(components), [components]);
 
   const data = useMemo(() => {
-    if (!isString(node)) {
+    if (!isString(node) && !['Form'].includes(node.type)) {
       return {
         ...pData,
         ...node.data,

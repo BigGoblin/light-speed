@@ -30,6 +30,7 @@ const testSchema: PageSchemaNode = {
     {
       key: 'test-form',
       type: 'Form',
+      name: 'test-form',
       // body:[{
 
       // }]

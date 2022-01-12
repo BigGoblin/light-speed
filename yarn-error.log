@@ -1,0 +1,78 @@
+Arguments: 
+  D:\devlopment_tools\nodejs\node.exe D:\devlopment_tools\nodejs\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Users\xiaoming\bin;D:\devlopment_tools\Git\mingw64\bin;D:\devlopment_tools\Git\usr\local\bin;D:\devlopment_tools\Git\usr\bin;D:\devlopment_tools\Git\usr\bin;D:\devlopment_tools\Git\mingw64\bin;D:\devlopment_tools\Git\usr\bin;C:\Users\xiaoming\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;%NVM_HOME%;%NVM_SYMLINK%;C:\Users\xiaoming\AppData\Local\Microsoft\WindowsApps;D:\devlopment_tools\nvm;D:\devlopment_tools\nodejs;D:\devlopment_tools\Microsoft VS Code\bin;D:\devlopment_tools\Git\usr\bin\vendor_perl;D:\devlopment_tools\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  17.3.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.npmmirror.com/@ant-design/icons/download/@ant-design/icons-4.7.0.tgz?cache=0&sync_timestamp=1632478732118&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40ant-design%2Ficons%2Fdownload%2F%40ant-design%2Ficons-4.7.0.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (D:\devlopment_tools\nvm\v17.3.1\node_modules\yarn\lib\cli.js:141510:19)
+      at Object.onceWrapper (node:events:509:28)
+      at ClientRequest.emit (node:events:390:28)
+      at TLSSocket.emitRequestTimeout (node:_http_client:758:9)
+      at Object.onceWrapper (node:events:509:28)
+      at TLSSocket.emit (node:events:402:35)
+      at TLSSocket.Socket._onTimeout (node:net:501:8)
+      at listOnTimeout (node:internal/timers:568:17)
+      at processTimers (node:internal/timers:510:7)
+
+npm manifest: 
+  {
+    "name": "light-speed",
+    "version": "0.0.0",
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc && vite build",
+      "preview": "vite preview"
+    },
+    "dependencies": {
+      "antd": "^4.18.3",
+      "lodash": "^4.17.21",
+      "monaco-editor": "^0.31.1",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2"
+    },
+    "devDependencies": {
+      "@types/lodash": "^4.14.178",
+      "@types/react": "^17.0.33",
+      "@types/react-dom": "^17.0.10",
+      "@typescript-eslint/eslint-plugin": "^5.9.0",
+      "@typescript-eslint/parser": "^5.9.0",
+      "@vitejs/plugin-react": "^1.0.7",
+      "eslint": "^7.32.0",
+      "eslint-config-prettier": "^8.3.0",
+      "eslint-config-standard": "^16.0.3",
+      "eslint-plugin-import": "^2.25.4",
+      "eslint-plugin-node": "^11.1.0",
+      "eslint-plugin-promise": "^5.2.0",
+      "eslint-plugin-react": "^7.28.0",
+      "eslint-plugin-react-hooks": "^4.3.0",
+      "less": "^4.1.2",
+      "prettier": "2.5.1",
+      "stylelint": "^14.2.0",
+      "stylelint-config-css-modules": "^2.3.0",
+      "stylelint-config-prettier": "^9.0.3",
+      "stylelint-config-rational-order": "^0.1.2",
+      "stylelint-config-standard": "^24.0.0",
+      "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
+      "stylelint-less": "^1.0.1",
+      "stylelint-order": "^5.0.0",
+      "typescript": "^4.4.4",
+      "vite": "^2.7.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
