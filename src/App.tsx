@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import RenderPage from './RenderPage';
-import { PageSchemaNode } from './RenderPage/data';
+import { BasicSchemaNode } from './RenderPage/data';
 import CodeEditor from './Editor';
 
 import styles from './App.module.less';
 import './App.css';
 import { isJsonString } from './utils';
-
-const testSchema: PageSchemaNode = {
+import 'antd/dist/antd.css';
+const testSchema: BasicSchemaNode = {
   key: 'root',
   type: 'Page',
   data: {
@@ -31,9 +31,14 @@ const testSchema: PageSchemaNode = {
       key: 'test-form',
       type: 'Form',
       name: 'test-form',
-      // body:[{
-
-      // }]
+      body: [
+        {
+          key: 'username',
+          name: 'username',
+          label: '${name}',
+          type: 'Input',
+        },
+      ],
     },
   ],
 };

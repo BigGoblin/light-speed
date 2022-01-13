@@ -1,7 +1,7 @@
 import React from 'react';
 import { isArray, isString, template } from 'lodash';
 import Render from '../RenderPage/Render';
-import { SchemaDataType, ContainerSchemaJSon } from '../RenderPage/data';
+import { SchemaDataType, BasicSchemaNode } from '../RenderPage/data';
 
 // 缓存一下提升性能
 const EVAL_CACHE: { [key: string]: Function } = {};
@@ -15,7 +15,7 @@ export function tplCompile(str: string, data: SchemaDataType) {
   }
 }
 
-export function renderChildren(content: ContainerSchemaJSon['body'], pData?: SchemaDataType) {
+export function renderChildren(content: BasicSchemaNode['body'], pData?: SchemaDataType) {
   return isArray(content) ? (
     <>
       {content.map((child, index) => (

@@ -2,11 +2,11 @@ import { isEqual, isString } from 'lodash';
 import React, { useMemo } from 'react';
 import components from '../../components';
 import { tplCompile } from '../../utils';
-import { FormItemSchemaNode, NodeItemSchemaNode, SchemaDataType, TplNode } from '../data';
+import { SchemaNode, SchemaDataType, TplNode } from '../data';
 import RenderNode from '../RenderNode/RenderNode';
 
 interface RenderProps {
-  node: NodeItemSchemaNode | FormItemSchemaNode;
+  node: SchemaNode;
   pData?: SchemaDataType;
 }
 
@@ -15,6 +15,7 @@ const Render: React.FC<RenderProps> = (props) => {
 
   const registerKeys = useMemo(() => Object.keys(components), [components]);
 
+  // get 作用域
   const data = useMemo(() => {
     if (!isString(node) && !['Form'].includes(node.type)) {
       return {
@@ -27,6 +28,7 @@ const Render: React.FC<RenderProps> = (props) => {
     };
   }, [node, pData]);
 
+  // 渲染模板字符串节点
   if (typeof node === 'string') {
     return (
       <span
@@ -37,6 +39,7 @@ const Render: React.FC<RenderProps> = (props) => {
     );
   }
 
+  // 渲染 Tpl 节点
   if (node.type === 'Tpl') {
     return (
       <span
